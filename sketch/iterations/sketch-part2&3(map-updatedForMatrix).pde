@@ -49,7 +49,7 @@ color blueLilac = #A6ADE6;
 color yellow = #E3BD3E;
 // color brown = #756C6B;
 color brown = #755D6C;
-color greenSlash = #B0B0B0;
+color greenSlash = #63BB52;
 
 void setup() {
   size(1300, 800);
@@ -159,12 +159,12 @@ void draw() {
   stroke(#B6B0B0); //brown stroke
   // rectMode(CENTER);
 
-  drawMap();
+  // drawMap();
   // drawMapLeaf();
   // labelMap();
 
   // drawDistMatrix();
-  // drawDistMatrixLeaf();
+  drawDistMatrixLeaf();
 }
 
 
@@ -194,31 +194,21 @@ void drawMap() {
           image(lilacFlower, longi, lat, int(size)+3, int(size)+3);
           excessCounter++;
           fill(0);
-          // text(bloomDateChange[i], longi, lat);
+          text(bloomDateChange[i], longi, lat);
 
           
         } else {
           fill(blueLilac);
-          circle(longi, lat, int(size));
+          rect(longi, lat, int(size), int(size));
         }
 
         popMatrix();
         flowerCounter++;
       } else if (bloomDateChange[i] > 1) {
-        
+        fill(#908745);
+        image(lilacBud, longi, lat, int(size), int(size));
         // rect(longi, lat, int(size), int(size));
-        
-
-        if (bloomDateChange[i] > 10) {
-          fill(#908745);
-          image(lilacBud, longi, lat, int(size), int(size));
-        } else {
-          fill(brown);
-        rect(longi, lat, int(size)*0.9, int(size)*0.9);
-        }
-
         budCounter++;
-
       } else {
         noChangeCounter++;
         noStroke();

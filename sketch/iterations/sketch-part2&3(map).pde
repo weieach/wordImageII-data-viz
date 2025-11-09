@@ -49,11 +49,10 @@ color blueLilac = #A6ADE6;
 color yellow = #E3BD3E;
 // color brown = #756C6B;
 color brown = #755D6C;
-color greenSlash = #B0B0B0;
+color greenSlash = #63BB52;
 
 void setup() {
   size(1300, 800);
-  // size(2600, 1600);
   smooth(8);
 
   tableLeafBloom = loadTable("data.csv", "header");
@@ -159,12 +158,11 @@ void draw() {
   stroke(#B6B0B0); //brown stroke
   // rectMode(CENTER);
 
-  drawMap();
-  // drawMapLeaf();
-  // labelMap();
+  // drawMap();
+  drawMapLeaf();
+  labelMap();
 
   // drawDistMatrix();
-  // drawDistMatrixLeaf();
 }
 
 
@@ -194,31 +192,21 @@ void drawMap() {
           image(lilacFlower, longi, lat, int(size)+3, int(size)+3);
           excessCounter++;
           fill(0);
-          // text(bloomDateChange[i], longi, lat);
+          text(bloomDateChange[i], longi, lat);
 
           
         } else {
           fill(blueLilac);
-          circle(longi, lat, int(size));
+          rect(longi, lat, int(size), int(size));
         }
 
         popMatrix();
         flowerCounter++;
       } else if (bloomDateChange[i] > 1) {
-        
+        fill(#908745);
+        image(lilacBud, longi, lat, int(size), int(size));
         // rect(longi, lat, int(size), int(size));
-        
-
-        if (bloomDateChange[i] > 10) {
-          fill(#908745);
-          image(lilacBud, longi, lat, int(size), int(size));
-        } else {
-          fill(brown);
-        rect(longi, lat, int(size)*0.9, int(size)*0.9);
-        }
-
         budCounter++;
-
       } else {
         noChangeCounter++;
         noStroke();
@@ -235,37 +223,24 @@ void drawMap() {
 }
 
 void drawMapLeaf() {
-  int leafCounter = 0;
-  int dirtCounter = 0;
-  int noChangeCounter = 0;
   for (int i = 0; i < leafDateChange.length; i++) {
     if (latitudeLeaf[i] < 50 && longitudeLeaf[i] > -130) {
-      float size = (abs(leafDateChange[i])*3 + 6)*width/1000;
+      float size = abs(leafDateChange[i])*3 + 6;
       float longi = map(longitudeLeaf[i], -130, -67, 0, width);
       float lat = map(latitudeLeaf[i], 50, 25.9, 0, height);
-      if (leafDateChange[i] < -1) {
+      if (leafDateChange[i] < 0) {
         image(leafImg, longi, lat, int(size*0.6), int(size));
-        leafCounter++;
         
-      } else if(leafDateChange[i] > 1){
+      } else {
         fill(brown);
         rect(longi, lat, int(size), int(size));
-        dirtCounter++;
-      } else {
-        noStroke();
-        fill(greenSlash);
-        rect(longi, lat, iconSize*0.1, iconSize*0.045);
-        noChangeCounter++;
       }
     }
   }
-  print("leaf" + leafCounter + " dirt" + dirtCounter + " nochange" + noChangeCounter);
-  // leaf977 dirt273
 }
 
 void labelMap() {
   textFont(abcHelvesti);
-  textSize(24);
   for (int i = 0; i < statesName.length; i++) {
     fill(0);
     float longi = map(statesLong[i], -130, -67, 0, width);
@@ -298,27 +273,3 @@ void drawDistMatrix() {
   }
 }
 
-void drawDistMatrixLeaf() {
-  translate(width/12, height/200);
-  noStroke();
-  int matrixCounter = 0;
-  int gap = height/10;
-  // leaf894 dirt204 nochange152
-
-  for (int y = 0; y < 10; y++) {
-    for (int x = 0; x < 10; x++) {
-      if (matrixCounter <= 16) {
-        fill(brown);
-        rect(x*gap + 0.05*gap, y*gap, iconSize*0.8, iconSize*0.8);
-      } else if (matrixCounter <= 28) {
-        
-        fill(#756C6B);
-        rect(x*gap + 0.2*gap, y*gap + 0.5*gap, iconSize*0.5, iconSize/6);
-      } else {
-        
-        image(leafImg, x*gap, y*gap, iconSize, iconSize);
-      }
-      matrixCounter++;
-    }
-  }
-}
